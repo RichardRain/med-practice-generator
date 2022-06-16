@@ -1,0 +1,181 @@
+:root {
+	--mainColor: #fff;
+	--secondColor: #292f36;
+	--accentColor: #97e1fa;
+	--specialColor: #fff0ea;
+
+	background-color: var(--secondColor);
+	font-family: Arial, Helvetica, sans-serif;
+	color: var(--secondColor);
+}
+::selection {
+	background-color: var(--accentColor);
+	color: var(--secondColor);
+}
+header {
+	color: var(--specialColor);
+	overflow: hidden;
+	padding: 20px 10px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.logo {
+	font-size: 30px;
+	font-weight: bold;
+}
+header nav {
+	float: right;
+	vertical-align: middle;
+}
+header a {
+	float: left;
+	vertical-align: middle;
+	padding: 12px;
+	text-decoration: none;
+	font-size: 30px;
+	border-radius: 4px;
+	color: var(--specialColor);
+}
+a.logo::before {
+	display: inline-block;
+	height: 50px;
+	width: 50px;
+	margin: 5px;
+	content: "";
+	background: url(img/mp-icon.png) no-repeat 0 0;
+	background-size: 50px 50px;
+	vertical-align: middle;
+}
+a.logo:hover::before {
+	display: inline-block;
+	height: 50px;
+	width: 50px;
+	content: "";
+	background: url(img/mp-icon-c.png) no-repeat 0 0;
+	background-size: 50px 50px;
+}
+header a:hover {
+	background-color: var(--specialColor);
+	color: var(--secondColor);
+}
+header a:active {
+	background-color: var(--accentColor);
+	color: var(--secondColor);
+}
+article {
+	clear: both;
+	background-color: var(--mainColor);
+	margin: 0px 10%;
+	padding: 10px 5%;
+	border: 1px solid var(--specialColor);
+	border-radius: 4px;
+}
+footer {
+	color: var(--specialColor);
+
+	width: 100%;
+	text-align: center;
+}
+form {
+	width: 100%;
+	max-width: 100%;
+	display: inline-block;
+	text-align: center;
+}
+fieldset {
+	/* display: flex; */
+	/* display: inline-block; */
+	border: 1px solid var(--specialColor);
+	border-radius: 4px;
+	/* align-items: center; */
+	/* justify-content: space-around; */
+	/* flex-direction: row; */
+	display: table;
+	width: 100%;
+}
+legend {
+	/* display: inline-block; */
+	padding: 4px 8px;
+	border: 1px solid var(--specialColor);
+	font-size: 15px;
+	color: var(--secondColor);
+	background-color: var(--specialColor);
+	text-align: left;
+	border-radius: 4px;
+}
+label {
+	width: 100px;
+	/* display: inline-block; */
+	/* text-align: left; */
+}
+input {
+	padding: 10px 10px;
+	margin: 0px 0px;
+	/* display: inline-block; */
+	border: 1px solid var(--specialColor);
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+textarea {
+	padding: 10px 10px;
+	margin: 10px 0px;
+	/* display: inline-block; */
+	border: 1px solid var(--specialColor);
+	border-radius: 4px;
+	box-sizing: border-box;
+	width: 100%;
+}
+select {
+	padding: 10px 10px;
+	margin: 10px 0px;
+	/* display: inline-block; */
+	border: 1px solid var(--specialColor);
+	border-radius: 4px;
+	box-sizing: border-box;
+	width: 100%;
+}
+button {
+	padding: 10px 10px;
+	margin: 10px 0px;
+	/* display: inline-block; */
+	border: 1px solid var(--specialColor);
+	border-radius: 4px;
+	box-sizing: border-box;
+	color: var(--secondColor);
+	background-color: var(--mainColor);
+}
+.subButton {
+	background-color: var(--specialColor);
+	color: var(--secondColor);
+}
+button:hover {
+	background-color: var(--accentColor);
+}
+:focus {
+	outline: none;
+	border: 1px solid var(--accentColor);
+	border-radius: 4px;
+	box-shadow: 0 0 10px var(--accentColor);
+}
+.row {
+	display: table-row;
+}
+.cell {
+	display: table-cell;
+}
+
+@media screen and (max-width: 580px) {
+	header a {
+		float: none;
+		display: block;
+		text-align: left;
+	}
+	header nav {
+		float: none;
+	}
+	main {
+		margin: 0px 5%;
+	}
+}

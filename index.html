@@ -1,0 +1,69 @@
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Дневник практики</title>
+		<link rel="stylesheet" href="main.css" />
+		<link rel="icon" href="img/mp-icon.png" />
+	</head>
+	<body>
+		<header>
+			<a class="logo" href="index.html">Дневник практики</a>
+			<nav aria-label="primary-navigation">
+				<a href="help.html">Помощь</a>
+			</nav>
+		</header>
+		<hr />
+		<main>
+			<article id="settings">
+				<h2>Давай настроим твой дневник!</h2>
+				<section>
+					<form action="https://httpbin.org/post" method="post">
+						<fieldset>
+							<legend>Дневник практики</legend>
+							<div class="row">
+								<label for="yearSelect" class="cell">Курс:</label>
+								<select name="yearSelect" id="yearSelect" class="cell">
+									<option value="year1">Первый</option>
+									<option value="year2">Второй</option>
+									<option value="year3">Третий</option>
+									<option value="year4">Четвертый</option>
+									<option value="year5">Пятый</option>
+									<option value="year6">Шестой</option>
+								</select>
+							</div>
+							<div class="row">
+								<label for="faculty" class="cell">Факультет:</label>
+								<select name="faculty" id="faculty" class="cell">
+									<option value="facLech">Лечебный</option>
+									<option value="facPed">Педиатрический</option>
+									<option value="facStom">Стоматологический</option>
+								</select>
+							</div>
+							<!-- Ограничить выбор в соответствии с курсом и факультетом -->
+							<div class="row">
+								<label for="practice" class="cell">Практика:</label>
+								<select name="practice" id="practice" class="cell">
+									<option value="1">Первый</option>
+									<option value="2">Второй</option>
+									<option value="3">Третий</option>
+									<option value="4">Четвертый</option>
+									<option value="5">Пятый</option>
+									<option value="6">Шестой</option>
+								</select>
+							</div>
+						</fieldset>
+						<br />
+						<button type="submit" class="subButton">Отправить</button>
+						<button type="reset">Стереть</button>
+					</form>
+				</section>
+			</article>
+			<hr />
+			<article id="med"></article>
+		</main>
+		<hr />
+		<footer></footer>
+	</body>
+</html>
