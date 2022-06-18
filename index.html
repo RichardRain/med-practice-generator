@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ru">
 	<head>
 		<meta charset="UTF-8" />
@@ -6,6 +7,8 @@
 		<title>Дневник практики</title>
 		<link rel="stylesheet" href="main.css" />
 		<link rel="icon" href="img/mp-icon.png" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="index.js"></script>
 	</head>
 	<body>
 		<header>
@@ -25,6 +28,7 @@
 							<div class="row">
 								<label for="yearSelect" class="cell">Курс:</label>
 								<select name="yearSelect" id="yearSelect" class="cell">
+									<option value="" disabled selected>Выберите курс</option>
 									<option value="year1">Первый</option>
 									<option value="year2">Второй</option>
 									<option value="year3">Третий</option>
@@ -36,32 +40,138 @@
 							<div class="row">
 								<label for="faculty" class="cell">Факультет:</label>
 								<select name="faculty" id="faculty" class="cell">
+									<option value="" disabled selected>Выберите факультет</option>
 									<option value="facLech">Лечебный</option>
 									<option value="facPed">Педиатрический</option>
 									<option value="facStom">Стоматологический</option>
 								</select>
 							</div>
-							<!-- Ограничить выбор в соответствии с курсом и факультетом -->
+
 							<div class="row">
 								<label for="practice" class="cell">Практика:</label>
 								<select name="practice" id="practice" class="cell">
-									<option value="1">Первый</option>
-									<option value="2">Второй</option>
-									<option value="3">Третий</option>
-									<option value="4">Четвертый</option>
-									<option value="5">Пятый</option>
-									<option value="6">Шестой</option>
+									<option value="" disabled selected>
+										Выберите название практики
+									</option>
 								</select>
+							</div>
+							<div class="row">
+								<label for="firstDate" class="cell">Дата начала:</label>
+								<input
+									type="date"
+									name="firstDate"
+									id="firstDate"
+									class="cell"
+								/>
+							</div>
+							<div class="row">
+								<label for="lastDate" class="cell">Дата окончания:</label>
+								<input type="date" name="lastDate" id="lastDate" class="cell" />
+							</div>
+							<div class="row">
+								<label for="patient" class="cell"
+									>Генерировать пациентов?</label
+								>
+								<input
+									type="checkbox"
+									name="patient"
+									id="patient"
+									class="cell"
+								/>
 							</div>
 						</fieldset>
 						<br />
-						<button type="submit" class="subButton">Отправить</button>
-						<button type="reset">Стереть</button>
+						<!-- <button class="subButton">Отправить</button>-->
+						<button type="reset" id="resButton">Стереть</button>
+						<p class="note">
+							🚧 На данный момент доступен генератор для 5 курса лечебного
+							факультета 🚧
+						</p>
 					</form>
+					<button class="subButton" id="subButton">Отправить</button>
 				</section>
 			</article>
 			<hr />
-			<article id="med"></article>
+			<article id="med">
+				<section>
+					<div style="text-align: center">
+						<p>ФГБОУ ВО ИвГМА</p>
+						<p>Минздрава России</p>
+						<br />
+						<br />
+						<p>ДНЕВНИК ПРОИЗВОДСТВЕННОЙ ПРАКТИКИ</p>
+						<br />
+					</div>
+					<div style="text-align: justify">
+						<p>
+							Студента (ки) <u id="yearText">___</u> курса
+							<em id="facText">___</em> факультета <u>___</u> группы
+						</p>
+						<p>Ф.И.О. студента _______________________</p>
+						<p>
+							Практика по получению профессиональных умений и опыта
+							профессиональной деятельности " <em id="practText"></em>"
+						</p>
+						<p>
+							Клиническая база практики (ЛПУ, адрес, отделение)
+							_________________
+						</p>
+						<p>
+							ФИО и должность ответственного работника клинической базы _______
+						</p>
+						<p>
+							ФИО и должность руководителя практической подготовки ____________
+						</p>
+						<p>Сроки прохождения практики <em id="practDuration"></em></p>
+						<p>Подпись ответственного работника клинической базы</p>
+						<p>Печать ЛПУ</p>
+						<br />
+						<p>Оценка руководителя практической подготовки на аттестации:</p>
+						<p>практические умения</p>
+						<p>собеседование</p>
+						<p>УИРС</p>
+						<br />
+						<p>Дата подпись</p>
+					</div>
+				</section>
+				<hr />
+				<section>
+					<div style="text-align: center">
+						<p>ХАРАКТЕРИСТИКА КЛИНИЧЕСКОЙ БАЗЫ ПРАКТИКИ</p>
+					</div>
+					<br />
+					<p>1. Название клинической базы практики</p>
+					<p>2. Место расположения, адрес</p>
+					<p>3. Наименование отделений, мощность</p>
+					<p>
+						4. Оснащенность клинической базы диагностической и лечебной
+						аппаратурой
+					</p>
+					<p>5. Подробное описание отделения</p>
+				</section>
+				<hr />
+				<section>
+					<div style="text-align: center">
+						<p>ИНСТРУКТАЖ ПО ТЕХНИКЕ БЕЗОПАСНОСТИ</p>
+					</div>
+					<br />
+					<p>
+						ФИО и должность ответственного работника клинической базы
+						___________
+					</p>
+					<br />
+					<p>Дата подпись</p>
+					<p>Печать ЛПУ</p>
+				</section>
+				<hr />
+				<section>
+					<div style="text-align: center">
+						<p>ГРАФИК РАБОТЫ В ОТДЕЛЕНИИ</p>
+					</div>
+					<br />
+					<div id="work"></div>
+				</section>
+			</article>
 		</main>
 		<hr />
 		<footer></footer>

@@ -21,6 +21,7 @@ header {
 	align-items: center;
 	justify-content: space-between;
 }
+
 .logo {
 	font-size: 30px;
 	font-weight: bold;
@@ -164,8 +165,16 @@ button:hover {
 }
 .cell {
 	display: table-cell;
+	padding: 4px;
 }
-
+.note {
+	font-size: small;
+	color: var(--accentColor);
+	background-color: var(--secondColor);
+	border: 1px solid var(--specialColor);
+	border-radius: 4px;
+	padding: 4px;
+}
 @media screen and (max-width: 580px) {
 	header a {
 		float: none;
