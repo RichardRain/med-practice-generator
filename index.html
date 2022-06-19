@@ -69,6 +69,28 @@
 								<input type="date" name="lastDate" id="lastDate" class="cell" />
 							</div>
 							<div class="row">
+								<label for="firstWork" class="cell">Время начала смены:</label>
+								<input
+									type="time"
+									name="firstWork"
+									id="firstWork"
+									class="cell"
+									value="08:00"
+								/>
+							</div>
+							<div class="row">
+								<label for="lastWork" class="cell"
+									>Время окончания смены:</label
+								>
+								<input
+									type="time"
+									name="lastWork"
+									id="lastWork"
+									class="cell"
+									value="14:00"
+								/>
+							</div>
+							<div class="row">
 								<label for="patient" class="cell"
 									>Генерировать пациентов?</label
 								>
@@ -169,7 +191,15 @@
 						<p>ГРАФИК РАБОТЫ В ОТДЕЛЕНИИ</p>
 					</div>
 					<br />
-					<div id="work"></div>
+					<div id="workTable"></div>
+					<br />
+					<p>Подпись ответственного работника клинической базы</p>
+					<br />
+					<p>Печать ЛПУ</p>
+				</section>
+				<hr />
+				<section>
+					<!-- Здесь должны быть дни дневника с таблицей выполненной работы и историями болезней -->
 				</section>
 			</article>
 		</main>

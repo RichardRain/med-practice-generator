@@ -175,6 +175,20 @@ button:hover {
 	border-radius: 4px;
 	padding: 4px;
 }
+.workTable {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid var(--specialColor);
+	border-radius: 4px;
+}
+.workRow:first-child {
+	background-color: var(--secondColor);
+	color: var(--accentColor);
+}
+.workCell {
+	padding: 4px;
+}
 @media screen and (max-width: 580px) {
 	header a {
 		float: none;
