@@ -45,12 +45,10 @@ $(document).ready(function () {
 	var row;
 	var table = $("<table>").addClass("workTable");
 	var pageRow;
-	// var pageTable = $("<table>").addClass("workTable");
 	var numOfWork;
 	var patient;
 	var whichIb;
 	var numOfIb;
-	GetJSON("Акушерско-гинекологическая");
 
 	$("#yearSelect").on("change", function () {
 		// При выборе нового варианта в графе Курс - записываем этот вариант во временную переменную
@@ -281,6 +279,7 @@ $(document).ready(function () {
 		return date.getDay() === 0;
 	}
 	// Функция генерирует 1 день дневника
+	// practice - название текущей практики
 	// date - дата текущего дня
 	// numOfWork - кол-во пунктов таблицы
 	// patient - надо ли писать историю болезни
@@ -314,9 +313,8 @@ $(document).ready(function () {
 		$("#pages").append(pageTable);
 		$("#pages").append($("<hr>"));
 	}
-	function GetJSON(name) {
-		$.getJSON("JSON/" + name + ".json");
-	}
+	// Выбирает случайное действие из индивидуального задания и его кратность
+	function textGen(practice) {}
 	// Функция последовательно записывает в три ячейки таблицы текст
 	function addCells(cell1, cell2, cell3, rowName) {
 		for (var i = 0; i < 3; i++) {
