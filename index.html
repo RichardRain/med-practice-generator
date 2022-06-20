@@ -21,7 +21,7 @@
 		<main>
 			<article id="settings">
 				<h2>Давай настроим твой дневник!</h2>
-				<section>
+				<section style="text-align: center">
 					<form action="https://httpbin.org/post" method="post">
 						<fieldset>
 							<legend>Дневник практики</legend>
@@ -91,6 +91,20 @@
 								/>
 							</div>
 							<div class="row">
+								<label for="numOfWork" class="cell"
+									>Кол-во выполненной работы ежедневно:</label
+								>
+								<input
+									type="number"
+									name="numOfWork"
+									id="numOfWork"
+									min="1"
+									max="10"
+									value="5"
+									class="cell"
+								/>
+							</div>
+							<div class="row">
 								<label for="patient" class="cell"
 									>Генерировать пациентов?</label
 								>
@@ -100,6 +114,22 @@
 									id="patient"
 									class="cell"
 								/>
+							</div>
+							<div class="row">
+								<label for="whichIb" class="cell">Какие пациенты?</label>
+								<select name="whichIb" id="whichIb" class="cell" disabled>
+									<option value="gynecological">Гинекологические</option>
+								</select>
+							</div>
+							<div class="row">
+								<label for="numOfIb" class="cell"
+									>Кол-во пациентов ежедневно:</label
+								>
+								<select name="numOfIb" id="numOfIb" class="cell" disabled>
+									<option value="max">1 полная ИБ</option>
+									<option value="min">1 краткая ИБ</option>
+									<option value="maxmin">1 полная ИБ и 1 краткая ИБ</option>
+								</select>
 							</div>
 						</fieldset>
 						<br />
@@ -191,6 +221,7 @@
 						<p>ГРАФИК РАБОТЫ В ОТДЕЛЕНИИ</p>
 					</div>
 					<br />
+					<!-- Здесь генерируется таблица с расписанием смен  -->
 					<div id="workTable"></div>
 					<br />
 					<p>Подпись ответственного работника клинической базы</p>
@@ -198,7 +229,7 @@
 					<p>Печать ЛПУ</p>
 				</section>
 				<hr />
-				<section>
+				<section id="pages">
 					<!-- Здесь должны быть дни дневника с таблицей выполненной работы и историями болезней -->
 				</section>
 			</article>

@@ -41,7 +41,16 @@ $(document).ready(function () {
 	var endDate = new Date();
 	var startWork = "";
 	var endWork = "";
+	var practice;
 	var row;
+	var table = $("<table>").addClass("workTable");
+	var pageRow;
+	// var pageTable = $("<table>").addClass("workTable");
+	var numOfWork;
+	var patient;
+	var whichIb;
+	var numOfIb;
+	GetJSON("Акушерско-гинекологическая");
 
 	$("#yearSelect").on("change", function () {
 		// При выборе нового варианта в графе Курс - записываем этот вариант во временную переменную
@@ -111,6 +120,15 @@ $(document).ready(function () {
 			$("#lastDate").val("");
 		}
 	});
+	$("#patient").on("change", function () {
+		if ($("#patient").is(":checked")) {
+			$("#whichIb").prop("disabled", false);
+			$("#numOfIb").prop("disabled", false);
+		} else {
+			$("#whichIb").prop("disabled", true);
+			$("#numOfIb").prop("disabled", true);
+		}
+	});
 	// Сбрасываем все переменные и устанавливаем в графу Практика плашку с выбором практики
 	$("#resButton").click(function () {
 		yearNum = "";
@@ -124,6 +142,14 @@ $(document).ready(function () {
 		$("#practice").append(
 			"<option value='' disabled selected>Выберите название практики</option>"
 		);
+		$("#whichIb").prop("disabled", true);
+		$("#numOfIb").prop("disabled", true);
+		// Очищаем текст в полях на титульнике, графике работы
+		$("#yearText").empty();
+		$("#facText").empty();
+		$("#practText").empty();
+		$("#practDuration").empty();
+		$("#workTable").empty();
 	});
 	$("#subButton").click(function () {
 		// Проверяем введены ли все важные данные
@@ -138,6 +164,12 @@ $(document).ready(function () {
 		) {
 			alert("Введите все данные!");
 		} else {
+			// Очищаем текст в полях на титульнике, графике работы
+			$("#yearText").empty();
+			$("#facText").empty();
+			$("#practText").empty();
+			$("#practDuration").empty();
+			$("#workTable").empty();
 			// Пишем курс, факультет и название практики на титульный лист
 			$("#yearText").text(yearNum.substring(4));
 			switch (facultyNum) {
@@ -154,6 +186,12 @@ $(document).ready(function () {
 			$("#practText").text(
 				$("#practice").val().replace(new RegExp("леч|[0-9]|-|ped", "g"), " ")
 			);
+			// Определяем переменные для генерации строк выполненной работы и историй болезней
+			practice = $("#practice").val();
+			numOfWork = Number($("#numOfWork").val()) + 1;
+			patient = $("#patient").is(":checked");
+			whichIb = $("#whichIb").val();
+			numOfIb = $("#numOfIb").val();
 
 			// Преобразовываем строку даты в формат даты для последующих вычислений
 			startDate = new Date($("#firstDate").val());
@@ -166,17 +204,19 @@ $(document).ready(function () {
 			startWork = $("#firstWork").val();
 			endWork = $("#lastWork").val();
 
-			// Цикл для создания таблицы с расписанием
-			// i можно взять как номер смены (но надо расчитать выходные)
+			// Определяем таблицу для работы и таблицу для дней в дневнике, а также переменную для вычита выходных дней
 			var todayDate = startDate;
-			var table = $("<table>").addClass("workTable");
+
 			var shiftOffset = 0;
+			// Цикл для создания таблицы с расписанием и дней в дневнике
+			// Один шаг цикла - один день, первый шаг - только для шапки таблицы расписания
 			for (var i = 0; i < practLenght; i++) {
+				// Генерация таблицы с расписанием
 				// В первой строке таблицы пишем названия столбцов
 				if (i == 0) {
 					row = $("<tr>").addClass("workRow");
 					table.append(row);
-					addCells("Смены", "Дата", "Часы работы");
+					addCells("Смены", "Дата", "Часы работы", "row");
 				} else {
 					var tableDate;
 					var shiftNum;
@@ -200,9 +240,12 @@ $(document).ready(function () {
 						shiftOffset++;
 					} else {
 						shiftNum = i - shiftOffset;
+						// Генерация страницы дневника
+						//--------
+						pageGen(practice, tableDate, numOfWork, patient, whichIb, numOfIb);
 					}
 					// Записываем в ячейки одной строки номер смены, дату и время работы
-					addCells(shiftNum, tableDate, shiftTime);
+					addCells(shiftNum, tableDate, shiftTime, "row");
 				}
 			}
 			// Добавляем таблицу с расписанием на сайт
@@ -237,8 +280,45 @@ $(document).ready(function () {
 	function isWeekend(date = new Date()) {
 		return date.getDay() === 0;
 	}
+	// Функция генерирует 1 день дневника
+	// date - дата текущего дня
+	// numOfWork - кол-во пунктов таблицы
+	// patient - надо ли писать историю болезни
+	// whichIb - какую историю болезни писать
+	// numOfIb - сколько историй писать
+	function pageGen(practice, date, numOfWork, patient, whichIb, numOfIb) {
+		var pageTable = $("<table>").addClass("workTable");
+		var workText;
+		for (var i = 0; i < numOfWork; i++) {
+			// Генерация таблицы с работой
+			// В первой строке таблицы пишем названия столбцов
+			if (i == 0) {
+				pageRow = $("<tr>").addClass("workRow");
+				pageTable.append(pageRow);
+				addCells(
+					"Дата",
+					"Содержание выполненной работы",
+					"Кратность",
+					"pageRow"
+				);
+			} else {
+				pageRow = $("<tr>").addClass("workRow");
+				pageTable.append(pageRow);
+				if (i == 1) {
+					addCells(date, "test", "test", "pageRow");
+				} else {
+					addCells("", "test", "test", "pageRow");
+				}
+			}
+		}
+		$("#pages").append(pageTable);
+		$("#pages").append($("<hr>"));
+	}
+	function GetJSON(name) {
+		$.getJSON("JSON/" + name + ".json");
+	}
 	// Функция последовательно записывает в три ячейки таблицы текст
-	function addCells(cell1, cell2, cell3) {
+	function addCells(cell1, cell2, cell3, rowName) {
 		for (var i = 0; i < 3; i++) {
 			var cellText;
 			switch (i) {
@@ -252,8 +332,16 @@ $(document).ready(function () {
 					cellText = cell3;
 					break;
 			}
-			var cell = $("<td>").addClass("workCell").text(cellText);
-			row.append(cell);
+			switch (rowName) {
+				case "row":
+					var cell = $("<td>").addClass("workCell").text(cellText);
+					row.append(cell);
+					break;
+				case "pageRow":
+					var cell = $("<td>").addClass("workCell").text(cellText);
+					pageRow.append(cell);
+					break;
+			}
 		}
 	}
 });
