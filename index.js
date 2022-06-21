@@ -303,18 +303,52 @@ $(document).ready(function () {
 			} else {
 				pageRow = $("<tr>").addClass("workRow");
 				pageTable.append(pageRow);
+				var textAndMult = textGen(practice);
 				if (i == 1) {
-					addCells(date, "test", "test", "pageRow");
+					addCells(date, textAndMult[0], textAndMult[1], "pageRow");
 				} else {
-					addCells("", "test", "test", "pageRow");
+					addCells("", textAndMult[0], textAndMult[1], "pageRow");
 				}
 			}
 		}
 		$("#pages").append(pageTable);
+		$("#pages").append($("<p>Подпись студента:</p>"));
+		$("#pages").append($("<p>Подпись базового руководителя:</p>"));
 		$("#pages").append($("<hr>"));
 	}
 	// Выбирает случайное действие из индивидуального задания и его кратность
-	function textGen(practice) {}
+	function textGen(practice) {
+		// Определяем массив, который будет выдавать текст и кратность
+		var textAndMult = [""];
+		var array;
+		// Далее определяем какая практика нам нужна
+		switch (practice) {
+			case "Акушерско-гинекологическая":
+				// ak - название json-элемента в practice.js, соответствует названию практики
+				array = practiceTextAndMult(ak);
+				textAndMult[0] = array[0];
+				textAndMult[1] = array[1];
+				break;
+		}
+		return textAndMult;
+	}
+	function practiceTextAndMult(practice) {
+		var n = practice.task.length;
+		var a = getRandomInt(0, n);
+		var min = practice.min[a];
+		var max = Number(practice.max[a]) + 1;
+		var mult = getRandomInt(Math.floor(min / 4), Math.floor(max / 4));
+		var array = [];
+		array[0] = ak.task[a];
+		array[1] = mult;
+		return array;
+	}
+	// Функция выдает случайное число в промежутке от min включительно до max (не включительно)
+	function getRandomInt(min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min)) + min;
+	}
 	// Функция последовательно записывает в три ячейки таблицы текст
 	function addCells(cell1, cell2, cell3, rowName) {
 		for (var i = 0; i < 3; i++) {
