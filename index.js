@@ -287,7 +287,6 @@ $(document).ready(function () {
 	// numOfIb - сколько историй писать
 	function pageGen(practice, date, numOfWork, patient, whichIb, numOfIb) {
 		var pageTable = $("<table>").addClass("workTable");
-		var workText;
 		for (var i = 0; i < numOfWork; i++) {
 			// Генерация таблицы с работой
 			// В первой строке таблицы пишем названия столбцов
@@ -311,7 +310,24 @@ $(document).ready(function () {
 				}
 			}
 		}
+
 		$("#pages").append(pageTable);
+		$("#pages").append($("<br>"));
+		if (patient) {
+			switch (numOfIb) {
+				case "max":
+					patientGenMax(whichIb);
+					break;
+				case "min":
+					patientGenMin(whichIb);
+					break;
+				case "minmax":
+					patientGenMax(whichIb);
+					$("#pages").append($("<br>"));
+					patientGenMin(whichIb);
+					break;
+			}
+		}
 		$("#pages").append($("<p>Подпись студента:</p>"));
 		$("#pages").append($("<p>Подпись базового руководителя:</p>"));
 		$("#pages").append($("<hr>"));
@@ -343,11 +359,34 @@ $(document).ready(function () {
 		array[1] = mult;
 		return array;
 	}
+	function patientGenMax(whichIb) {
+		switch (whichIb) {
+			case "gynecological":
+				pagesAddP("Больная " + randLetter() + ".");
+				// Дописать генератор
+				break;
+		}
+	}
+	function patientGenMin(whichIb) {
+		switch (whichIb) {
+			case "gynecological":
+				break;
+		}
+	}
 	// Функция выдает случайное число в промежутке от min включительно до max (не включительно)
 	function getRandomInt(min, max) {
 		min = Math.ceil(min);
 		max = Math.floor(max);
 		return Math.floor(Math.random() * (max - min)) + min;
+	}
+	function pagesAddP(text) {
+		$("#pages").append($("<p>").text(text));
+	}
+	function randLetter() {
+		const alphabet = "АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЯ";
+		const randomCharacter =
+			alphabet[Math.floor(Math.random() * alphabet.length)];
+		return randomCharacter;
 	}
 	// Функция последовательно записывает в три ячейки таблицы текст
 	function addCells(cell1, cell2, cell3, rowName) {
