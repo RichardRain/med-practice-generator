@@ -362,7 +362,33 @@ $(document).ready(function () {
 	function patientGenMax(whichIb) {
 		switch (whichIb) {
 			case "gynecological":
-				pagesAddP("Больная " + randLetter() + ".");
+				var age = getRandomInt(gyn.age[0], gyn.age[1]);
+				var ageText = ageToStr(age);
+				pagesAddP("Больная " + randLetter() + "., " + ageText + ".");
+				var enrolledDays = getRandomInt(1, 10);
+				var enrolledDaysText;
+				if (enrolledDays >= 5) {
+					enrolledDaysText = " дней назад.";
+				} else if (enrolledDays > 1) {
+					enrolledDaysText = " дня назад.";
+				} else {
+					enrolledDaysText = " день назад.";
+				}
+				pagesAddP(
+					"Поступила " +
+						gyn.enrolled[getRandomInt(0, 2)] +
+						" " +
+						enrolledDays +
+						enrolledDaysText
+				);
+				var complaints = [];
+				var complaintsNum = getRandomInt(1, 4);
+				for (i = 0; i < complaintsNum; i++) {
+					complaints[i] =
+						gyn.complaints[getRandomInt(0, gyn.complaints.length)];
+				}
+				// Нужно чтобы жалобы писал через запятую
+				pagesAddP("Жалобы на: " + "");
 				// Дописать генератор
 				break;
 		}
@@ -370,8 +396,28 @@ $(document).ready(function () {
 	function patientGenMin(whichIb) {
 		switch (whichIb) {
 			case "gynecological":
+				pagesAddP(
+					"Больная " + randLetter() + "., " + getRandomInt(18, 90) + " лет."
+				);
 				break;
 		}
+	}
+	function ageToStr(age) {
+		var txt;
+		count = age % 100;
+		if (count >= 5 && count <= 20) {
+			txt = "лет";
+		} else {
+			count = count % 10;
+			if (count == 1) {
+				txt = "год";
+			} else if (count >= 2 && count <= 4) {
+				txt = "года";
+			} else {
+				txt = "лет";
+			}
+		}
+		return age + " " + txt;
 	}
 	// Функция выдает случайное число в промежутке от min включительно до max (не включительно)
 	function getRandomInt(min, max) {
