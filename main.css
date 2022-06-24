@@ -12,6 +12,9 @@
 	background-color: var(--accentColor);
 	color: var(--secondColor);
 }
+hr {
+	color: var(--specialColor);
+}
 header {
 	color: var(--specialColor);
 	overflow: hidden;
@@ -78,6 +81,22 @@ footer {
 
 	width: 100%;
 	text-align: center;
+}
+a:active {
+	color: var(--specialColor);
+	text-decoration: none;
+}
+a:visited {
+	color: var(--specialColor);
+	text-decoration: none;
+}
+a {
+	color: var(--specialColor);
+	text-decoration: none;
+}
+a:hover {
+	color: var(--accentColor);
+	text-decoration: none;
 }
 form {
 	width: 100%;

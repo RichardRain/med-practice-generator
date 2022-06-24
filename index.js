@@ -147,7 +147,12 @@ $(document).ready(function () {
 		$("#facText").empty();
 		$("#practText").empty();
 		$("#practDuration").empty();
+		row = null;
+		table = $("<table>").addClass("workTable");
+		pageRow = null;
 		$("#workTable").empty();
+		$("#pages").empty();
+		$("#med").prop("hidden", true);
 	});
 	$("#subButton").click(function () {
 		// Проверяем введены ли все важные данные
@@ -163,11 +168,16 @@ $(document).ready(function () {
 			alert("Введите все данные!");
 		} else {
 			// Очищаем текст в полях на титульнике, графике работы
+			$("#med").prop("hidden", false);
 			$("#yearText").empty();
 			$("#facText").empty();
 			$("#practText").empty();
 			$("#practDuration").empty();
+			row = null;
+			table = $("<table>").addClass("workTable");
+			pageRow = null;
 			$("#workTable").empty();
+			$("#pages").empty();
 			// Пишем курс, факультет и название практики на титульный лист
 			$("#yearText").text(yearNum.substring(4));
 			switch (facultyNum) {
@@ -321,7 +331,7 @@ $(document).ready(function () {
 				case "min":
 					patientGenMin(whichIb);
 					break;
-				case "minmax":
+				case "maxmin":
 					patientGenMax(whichIb);
 					$("#pages").append($("<br>"));
 					patientGenMin(whichIb);
@@ -362,43 +372,222 @@ $(document).ready(function () {
 	function patientGenMax(whichIb) {
 		switch (whichIb) {
 			case "gynecological":
+				pagesAddP("I. Паспортная часть");
 				var age = getRandomInt(gyn.age[0], gyn.age[1]);
 				var ageText = ageToStr(age);
 				pagesAddP("Больная " + randLetter() + "., " + ageText + ".");
+				var enrolledType = gyn.enrolled[getRandomInt(0, 2)];
 				var enrolledDays = getRandomInt(1, 10);
 				var enrolledDaysText;
 				if (enrolledDays >= 5) {
-					enrolledDaysText = " дней назад.";
+					enrolledDaysText = " дней назад";
 				} else if (enrolledDays > 1) {
-					enrolledDaysText = " дня назад.";
+					enrolledDaysText = " дня назад";
 				} else {
-					enrolledDaysText = " день назад.";
+					enrolledDaysText = " день назад";
 				}
 				pagesAddP(
+					"Проживает: " + all.city[getRandomInt(0, all.city.length)] + "."
+				);
+				pagesAddP(
 					"Поступила " +
-						gyn.enrolled[getRandomInt(0, 2)] +
+						enrolledType +
 						" " +
 						enrolledDays +
-						enrolledDaysText
+						enrolledDaysText +
+						"."
 				);
-				var complaints = [];
-				var complaintsNum = getRandomInt(1, 4);
-				for (i = 0; i < complaintsNum; i++) {
-					complaints[i] =
-						gyn.complaints[getRandomInt(0, gyn.complaints.length)];
+				var diagnosisID = getRandomInt(0, gyn.diagnosis.length);
+				pagesAddP("Диагноз: " + gyn.diagnosis[diagnosisID] + ".");
+
+				pagesAddP("II. Жалобы");
+				pagesAddP("Жалобы на: " + gyn.complaints[diagnosisID] + ".");
+
+				pagesAddP("III. Анамнез жизни");
+				pagesAddP(
+					"Хронические болезни: " +
+						gyn.chronic[getRandomInt(0, gyn.chronic.length)] +
+						"."
+				);
+				pagesAddP("Вирусный гепатит, ВИЧ, туберкулез: отриацет.");
+				pagesAddP(
+					"Аллергии: " +
+						gyn.allergies[getRandomInt(0, gyn.allergies.length)] +
+						"."
+				);
+				pagesAddP(
+					"Операции, травмы, переливания: " +
+						gyn.surgeries[getRandomInt(0, gyn.surgeries.length)] +
+						"."
+				);
+				pagesAddP(
+					"Вредные привычки: " +
+						gyn.habits[getRandomInt(0, gyn.habits.length)] +
+						"."
+				);
+				pagesAddP(
+					"Наследственность: " +
+						gyn.genetics[getRandomInt(0, gyn.genetics.length)] +
+						"."
+				);
+
+				pagesAddP("IV. Акушерско-гинекологический анамнез");
+				pagesAddP(
+					"Менструации с " +
+						getRandomInt(12, 16) +
+						" лет, " +
+						gyn.gynecology[getRandomInt(0, gyn.gynecology.length)] +
+						"."
+				);
+				var births;
+				var miscarriages;
+				var abortions;
+				if (age > 52) {
+					pagesAddP("Прекратились в " + getRandomInt(40, 53));
+					births = getRandomInt(1, 4);
+					miscarriages = getRandomInt(0, 4);
+					abortions = getRandomInt(0, 4);
+				} else {
+					births = getRandomInt(0, 3);
+					miscarriages = getRandomInt(0, 3);
+					abortions = getRandomInt(0, 3);
 				}
-				// Нужно чтобы жалобы писал через запятую
-				pagesAddP("Жалобы на: " + "");
-				// Дописать генератор
+				var preg = births + miscarriages + abortions;
+				pagesAddP(
+					"Беременности - " +
+						preg +
+						": " +
+						"роды - " +
+						births +
+						", " +
+						"выкидыши - " +
+						miscarriages +
+						", " +
+						"аборты - " +
+						abortions +
+						"."
+				);
+				pagesAddP("V. Анамнез заболевания");
+				switch (enrolledType) {
+					case "планово":
+						pagesAddP(
+							enrolledDays +
+								enrolledDaysText +
+								" возникли жалобы на " +
+								gyn.complaints[diagnosisID] +
+								", в связи с чем обратилась в поликлинику, где диагностировали " +
+								gyn.diagnosis[diagnosisID] +
+								". С данным диагнозом была направлена в НИИ."
+						);
+						break;
+					case "экстренно":
+						pagesAddP(
+							enrolledDays +
+								enrolledDaysText +
+								" обратилась в скорую и поступила в НИИ с жалобами на " +
+								gyn.complaints[diagnosisID] +
+								", где диагностировали " +
+								gyn.diagnosis[diagnosisID] +
+								"."
+						);
+						break;
+				}
+
+				pagesAddP("VI. Общий статус");
+				var spb = getRandomInt(gyn.sbp[0], gyn.sbp[1]);
+				var dbp = getRandomInt(gyn.dbp[0], gyn.dbp[1]);
+				var pulse = getRandomInt(gyn.pulse[0], gyn.pulse[1]);
+				var rr = getRandomInt(gyn.rr[0], gyn.rr[1]);
+				pagesAddP(
+					"Общее состояние " +
+						gyn.condition[getRandomInt(0, gyn.condition.length)] +
+						". Сознание ясное, положение активное. " +
+						gyn.skin[getRandomInt(0, gyn.skin.length)] +
+						", " +
+						gyn.musculoskeletalSystem[
+							getRandomInt(0, gyn.musculoskeletalSystem.length)
+						] +
+						". Дыхательная система: " +
+						gyn.respiratorySystem[
+							getRandomInt(0, gyn.respiratorySystem.length)
+						] +
+						". ЧДД: " +
+						rr +
+						" движений в минуту. Сердечно-сосудистая система: " +
+						gyn.cardiovascularSystem[
+							getRandomInt(0, gyn.cardiovascularSystem.length)
+						] +
+						". Пульс: " +
+						pulse +
+						" уд/мин, АД: " +
+						spb +
+						"/" +
+						dbp +
+						" мм. рт. ст. Пищеварительная система: " +
+						gyn.digestiveSystem[getRandomInt(0, gyn.digestiveSystem.length)] +
+						". Эндокринная система: " +
+						gyn.endocrineSystem[getRandomInt(0, gyn.endocrineSystem.length)] +
+						". Выделительная система: " +
+						gyn.excretorySystem[getRandomInt(0, gyn.excretorySystem.length)] +
+						". Нервная система: " +
+						gyn.neuralSystem[getRandomInt(0, gyn.neuralSystem.length)] +
+						". Половая система: " +
+						gyn.reproductiveSystem[
+							getRandomInt(0, gyn.reproductiveSystem.length)
+						] +
+						"."
+				);
+				pagesAddP("VII. Диагностика");
+				pagesAddP(
+					"Назначенная диагностика: " + gyn.diagnostics[diagnosisID] + "."
+				);
+				pagesAddP("VIII. Клинический диагноз");
+				pagesAddP(gyn.diagnosis[diagnosisID] + ".");
+				pagesAddP("IX. Лечение");
+				pagesAddP(gyn.treatment[diagnosisID] + ".");
+
 				break;
 		}
 	}
 	function patientGenMin(whichIb) {
 		switch (whichIb) {
 			case "gynecological":
+				var age = getRandomInt(gyn.age[0], gyn.age[1]);
+				var ageText = ageToStr(age);
+				pagesAddP("Больная " + randLetter() + "., " + ageText + ".");
+
+				var diagnosisID = getRandomInt(0, gyn.diagnosis.length);
+
+				var spb = getRandomInt(gyn.sbp[0], gyn.sbp[1]);
+				var dbp = getRandomInt(gyn.dbp[0], gyn.dbp[1]);
+				var pulse = getRandomInt(gyn.pulse[0], gyn.pulse[1]);
+				var rr = getRandomInt(gyn.rr[0], gyn.rr[1]);
+				var temp = getRandomInt(0, 10);
 				pagesAddP(
-					"Больная " + randLetter() + "., " + getRandomInt(18, 90) + " лет."
+					"Общее состояние " +
+						gyn.condition[getRandomInt(0, gyn.condition.length)] +
+						". Сознание ясное, положение активное. Температура: 36." +
+						temp +
+						". ЧДД: " +
+						rr +
+						" движений в минуту. Пульс: " +
+						pulse +
+						" уд/мин, АД: " +
+						spb +
+						"/" +
+						dbp +
+						" мм. рт. ст."
 				);
+				var wellness = getRandomInt(0, 2);
+				switch (wellness) {
+					case 0:
+						pagesAddP("Жалобы на: " + gyn.complaints[diagnosisID] + ".");
+						break;
+					case 1:
+						pagesAddP("Жалоб не предъявляет.");
+						break;
+				}
+
 				break;
 		}
 	}
